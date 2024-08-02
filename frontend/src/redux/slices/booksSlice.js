@@ -6,25 +6,28 @@ const booksSlice = createSlice({
 	name: 'books',
 	initialState,
 	reducers: {
-		setAddBook: (state, action) => {
+		addBook: (state, action) => {
 			return [...state, action.payload];
 		},
-		setDeleteBook: (state, action) => {
+		deleteBook: (state, action) => {
 			return state.filter((book) => book.id !== action.payload);
 		},
-		setToggleFavorite: (state, action) => {
-			return state.map((book) =>
-				book.id === action.payload
-					? { ...book, isFavorite: !book.isFavorite }
-					: book
-			);
+		toggleFavorite: (state, action) => {
+			state.forEach((book) => {
+				if (book.id === action.payload) {
+					book.isFavorite = !book.isFavorite;
+				}
+			}); // --- mutation that immer copes
+
+			// return state.map((book) => --- without mutation
+			// 	book.id === action.payload
+			// 		? { ...book, isFavorite: !book.isFavorite }
+			// 		: book
+			// );
 		},
 	},
 });
 
-export const { setAddBook, setDeleteBook, setToggleFavorite } =
-	booksSlice.actions;
-
-export const selectBooks = (state) => state.books;
+export const { addBook, deleteBook, toggleFavorite } = booksSlice.actions;
 
 export default booksSlice.reducer;

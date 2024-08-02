@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs';
-import { deleteBook, favoriteToggle } from '../../redux/books/actionCreators';
+import { deleteBook, toggleFavorite } from '../../redux/slices/booksSlice';
 import {
 	selectFilterAuthor,
 	selectFilterFavorite,
@@ -29,7 +29,7 @@ export const BookList = () => {
 	};
 
 	const favoriteHandler = (id) => {
-		dispatch(favoriteToggle(id));
+		dispatch(toggleFavorite(id));
 	};
 
 	const highlightMatch = (text, filter) => {
