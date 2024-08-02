@@ -4,7 +4,6 @@ import { addBook } from '../../redux/books/actionCreators';
 import booksData from '../../data/books.json';
 import './BookForm.css';
 import createBook from '../../utils/createBook';
-
 const BookForm = () => {
 	const [title, setTitle] = useState('');
 	const [author, setAuthor] = useState('');

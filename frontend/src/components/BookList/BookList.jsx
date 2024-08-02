@@ -2,15 +2,26 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsBookmarkStar, BsBookmarkStarFill } from 'react-icons/bs';
 import { deleteBook, favoriteToggle } from '../../redux/books/actionCreators';
-import { selectFilterTitle } from '../../redux/slices/filterSlice';
+import {
+	selectFilterAuthor,
+	selectFilterFavorite,
+	selectFilterTitle,
+} from '../../redux/slices/filterSlice';
 import './BookList.css';
 
 export const BookList = () => {
+	const dispatch = useDispatch();
 	const books = useSelector((state) => state.books);
 	const titleFilter = useSelector(selectFilterTitle);
-	const dispatch = useDispatch();
+	const authorFilter = useSelector(selectFilterAuthor);
+	const favoriteFilter = useSelector(selectFilterFavorite);
+
 	const filteredBooks = books.filter((book) => {
-		return book.title.toLowerCase().includes(titleFilter.toLowerCase());
+		return (
+			book.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+			book.author.toLowerCase().includes(authorFilter.toLowerCase()) &&
+			(favoriteFilter ? book.isFavorite : true)
+		);
 	});
 
 	const deleteHandler = (id) => {
@@ -19,6 +30,21 @@ export const BookList = () => {
 
 	const favoriteHandler = (id) => {
 		dispatch(favoriteToggle(id));
+	};
+
+	const highlightMatch = (text, filter) => {
+		if (!filter) return text;
+
+		const regex = new RegExp(`(${filter})`, 'gi');
+		return text.split(regex).map((substring, i) => {
+			if (substring.toLowerCase() === filter.toLowerCase()) {
+				return (
+					<span key={i} className='highlight'>
+						{substring}
+					</span>
+				);
+			} else return substring;
+		});
 	};
 
 	return (
@@ -31,7 +57,8 @@ export const BookList = () => {
 					{filteredBooks.map((book, i) => (
 						<li key={book.id}>
 							<div className='book-info'>
-								{++i}. {book.title} by <strong>{book.author}</strong>
+								{++i}. {highlightMatch(book.title, titleFilter)} by{' '}
+								<strong>{highlightMatch(book.author, authorFilter)}</strong>
 							</div>
 							<div className='book-actions'>
 								<span onClick={() => favoriteHandler(book.id)}>
