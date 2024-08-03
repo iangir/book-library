@@ -17,7 +17,7 @@
 }
 
 .filter button {
-	background-color: #007bff;
+	background-color: #364448;
 	color: #fff;
 	padding: 8px 12px;
 	border: none;
@@ -28,7 +28,7 @@
 }
 
 .filter button:hover {
-	background-color: #0056b3;
+	background-color: #1d2527;
 }
 
 @media screen and (max-width: 1024px) {
