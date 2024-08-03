@@ -11,7 +11,7 @@ import './BookList.css';
 
 export const BookList = () => {
 	const dispatch = useDispatch();
-	const books = useSelector((state) => state.books);
+	const books = useSelector((state) => state.books.books);
 	const titleFilter = useSelector(selectFilterTitle);
 	const authorFilter = useSelector(selectFilterAuthor);
 	const favoriteFilter = useSelector(selectFilterFavorite);
